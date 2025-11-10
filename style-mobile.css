@@ -1,0 +1,126 @@
+* { 
+  box-sizing: border-box; 
+  margin: 0; 
+  padding: 0; 
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: #fff;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: 180px 1fr 220px;
+  grid-template-rows: 120px 1fr 80px;
+  grid-template-areas:
+    "b1 b1 b1"
+    "left main b4"
+    "b6 b6 b4";
+  min-height: 100vh;
+}
+
+.block { padding: 10px; }
+
+/* Верхній блок */
+.b1 {
+  grid-area: b1;
+  background: #d299ef;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+}
+
+.menu a {
+  margin-right: 15px;
+  text-decoration: none;
+  color: #000;
+  font-weight: bold;
+}
+.menu a:hover { text-decoration: underline; }
+
+.logo-box {
+  background: #f3e1fc;
+  color: #000;
+  padding: 15px 40px;
+  border: 2px solid #000;
+  font-weight: bold;
+  font-size: 24px;
+}
+
+/* ліва колонка */
+.left {
+  grid-area: left;
+  display: flex;
+  flex-direction: column;
+}
+.b2, .b5 { flex: 1; padding: 10px; }
+.b2 { background: #afe5f6; }
+.b5 { background: #f7a8e8; }
+
+/* центральна частина */
+.b3 { grid-area: main; background: #ffffff; padding: 15px; }
+
+/* права колонка */
+.b4 { grid-area: b4; background: #afe5f6; padding: 10px; }
+
+/* підвал */
+.b6 {
+  grid-area: b6;
+  background: #d299ef;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding-left: 20px;
+}
+.y-box {
+  background: #f3e1fc;
+  color: #000;
+  padding: 15px 40px;
+  border: 2px solid #000;
+  font-weight: bold;
+  font-size: 24px;
+}
+
+/* зображення */
+img {
+  display: block;
+  margin: 20px auto;
+  height: auto;
+  max-width: 100%;
+}
+
+/* Мобільна адаптація */
+@media (max-width: 768px) {
+  .container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .b1, .b6 {
+    text-align: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  .menu {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .left, .b3, .b4 {
+    width: 100%;
+  }
+
+  .b2, .b5, .b3, .b4 {
+    margin-bottom: 10px;
+  }
+
+  .logo-box, .y-box {
+    padding: 10px 20px;
+    font-size: 18px;
+  }
+}
