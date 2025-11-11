@@ -115,3 +115,26 @@ document.addEventListener("DOMContentLoaded", () => {
     alert(`Результат збережено у cookies: макс ${maxNum}, кількість ${countMax}`);
   });
 });
+
+// --- Завдання 4: зміна кольору фону блоку 2 і збереження у localStorage ---
+
+document.addEventListener("DOMContentLoaded", () => {
+    const colorInput = document.getElementById("colorPicker");
+    const block2 = document.querySelector(".b2");
+    
+    if (!colorInput || !block2) return;
+    
+    // Якщо у localStorage вже є збережений колір — застосовуємо його
+    const savedColor = localStorage.getItem("block2Color");
+    if (savedColor) {
+        block2.style.backgroundColor = savedColor;
+        colorInput.value = savedColor;
+    }
+
+   // При втраті фокусу (blur) — зберігаємо вибраний колір
+   colorInput.addEventListener("blur", () => {
+    const chosenColor = colorInput.value;
+    block2.style.backgroundColor = chosenColor;
+    localStorage.setItem("block2Color", chosenColor);
+});
+});
