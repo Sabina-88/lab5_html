@@ -194,11 +194,37 @@ document.addEventListener("DOMContentLoaded", () => {
 setTimeout(() => {
   const x = document.querySelector(".logo-box");
   const y = document.querySelector(".y-box");
-  if (x && y) {
-    const temp = x.innerHTML;
-    x.innerHTML = y.innerHTML;
-    y.innerHTML = temp;
-    x.style.backgroundColor = "#f3e1fc";
-    y.style.backgroundColor = "#f3e1fc";
+  if (!x || !y) return;
+
+  // Функція: дістає з елемента тільки текст (усі текстові вузли, об'єднані)
+  function getOnlyText(el) {
+    return Array.from(el.childNodes)
+      .filter(n => n.nodeType === Node.TEXT_NODE)
+      .map(n => n.textContent)
+      .join("")
+      .trim();
   }
+
+  // Функція: замінити або додати текстовий вузол на початку (без чіпання інших елементів)
+  function setOnlyText(el, text) {
+    // Видаляємо всі текстові вузли всередині елемента
+    Array.from(el.childNodes)
+      .filter(n => n.nodeType === Node.TEXT_NODE)
+      .forEach(n => n.remove());
+
+    // Створюємо новий текстовий вузол і вставляємо на початок
+    const tn = document.createTextNode(text);
+    el.insertBefore(tn, el.firstChild || null);
+  }
+
+  const textX = getOnlyText(x);
+  const textY = getOnlyText(y);
+
+  // міняємо тільки текст (зберігаємо інші внутрішні елементи, наприклад кнопки)
+  setOnlyText(x, textY);
+  setOnlyText(y, textX);
+
+  // опційно — виставляємо фон (як у тебе було)
+  x.style.backgroundColor = "#f3e1fc";
+  y.style.backgroundColor = "#f3e1fc";
 }, 1000);
