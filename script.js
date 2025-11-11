@@ -138,3 +138,65 @@ document.addEventListener("DOMContentLoaded", () => {
     localStorage.setItem("block2Color", chosenColor);
 });
 });
+
+// --- Завдання 5: редагування вмісту блоків 1..6 ---
+
+document.addEventListener("DOMContentLoaded", () => {
+    const blocks = document.querySelectorAll(".block");
+    
+    blocks.forEach((block, index) => {
+        const editLink = block.querySelector(".edit-link");
+        const blockId = `blockContent_${index + 1}`;
+
+    // Якщо у localStorage вже є збережений текст — показуємо його
+    const savedHTML = localStorage.getItem(blockId);
+    if (savedHTML) {
+        block.innerHTML = savedHTML + `<button class="restore-btn">Відновити початковий текст</button>`;
+        addRestoreHandler(block, blockId);
+    }
+
+    // Якщо є посилання "Редагувати"
+    if (editLink) {
+        editLink.addEventListener("dblclick", (e) => {
+            e.preventDefault();
+
+        // Отримуємо поточний HTML
+        const currentHTML = block.innerHTML;
+        block.innerHTML = `
+          <textarea style="width:100%;height:150px;">${currentHTML}</textarea>
+          <button class="save-btn">Зберегти зміни</button>
+        `;
+
+        const saveBtn = block.querySelector(".save-btn");
+        const textarea = block.querySelector("textarea");
+
+        // Обробник натискання на "Зберегти"
+        saveBtn.addEventListener("click", () => {
+          const newContent = textarea.value;
+
+          // Зберігаємо у localStorage
+          localStorage.setItem(blockId, newContent);
+
+          // Міняємо фон на випадковий колір
+          const randomColor = "#" + Math.floor(Math.random() * 16777215).toString(16);
+          block.style.backgroundColor = randomColor;
+
+          // Виводимо оновлений контент + кнопку відновлення
+          block.innerHTML = newContent + `<button class="restore-btn">Відновити початковий текст</button>`;
+          addRestoreHandler(block, blockId);
+        });
+      });
+    }
+  });
+
+  // --- Функція для кнопки "Відновити початковий текст" ---
+  function addRestoreHandler(block, blockId) {
+    const restoreBtn = block.querySelector(".restore-btn");
+    if (restoreBtn) {
+      restoreBtn.addEventListener("click", () => {
+        localStorage.removeItem(blockId);
+        location.reload();
+      });
+    }
+  }
+});
