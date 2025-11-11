@@ -1,18 +1,3 @@
-// --- Завдання 1: обмін верхнього і нижнього блоків ---
-
-document.addEventListener("DOMContentLoaded", () => {
-  const x = document.querySelector(".logo-box");
-  const y = document.querySelector(".y-box");
-  if (x && y) {
-    const temp = x.innerHTML;
-    x.innerHTML = y.innerHTML;
-    y.innerHTML = temp;
-    x.style.backgroundColor = "#f3e1fc";
-    y.style.backgroundColor = "#f3e1fc";
-  }
-});
-
-
 // --- Завдання 2: обчислення площі кола ---
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -116,49 +101,51 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+
 // --- Завдання 4: зміна кольору фону блоку 2 і збереження у localStorage ---
 
 document.addEventListener("DOMContentLoaded", () => {
-    const colorInput = document.getElementById("colorPicker");
-    const block2 = document.querySelector(".b2");
-    
-    if (!colorInput || !block2) return;
-    
-    // Якщо у localStorage вже є збережений колір — застосовуємо його
-    const savedColor = localStorage.getItem("block2Color");
-    if (savedColor) {
-        block2.style.backgroundColor = savedColor;
-        colorInput.value = savedColor;
-    }
+  const colorInput = document.getElementById("colorPicker");
+  const block2 = document.querySelector(".b2");
 
-   // При втраті фокусу (blur) — зберігаємо вибраний колір
-   colorInput.addEventListener("blur", () => {
+  if (!colorInput || !block2) return;
+
+  // Якщо у localStorage вже є збережений колір — застосовуємо його
+  const savedColor = localStorage.getItem("block2Color");
+  if (savedColor) {
+    block2.style.backgroundColor = savedColor;
+    colorInput.value = savedColor;
+  }
+
+  // При втраті фокусу (blur) — зберігаємо вибраний колір
+  colorInput.addEventListener("blur", () => {
     const chosenColor = colorInput.value;
     block2.style.backgroundColor = chosenColor;
     localStorage.setItem("block2Color", chosenColor);
+  });
 });
-});
+
 
 // --- Завдання 5: редагування вмісту блоків 1..6 ---
 
 document.addEventListener("DOMContentLoaded", () => {
-    const blocks = document.querySelectorAll(".block");
-    
-    blocks.forEach((block, index) => {
-        const editLink = block.querySelector(".edit-link");
-        const blockId = `blockContent_${index + 1}`;
+  const blocks = document.querySelectorAll(".block");
+
+  blocks.forEach((block, index) => {
+    const editLink = block.querySelector(".edit-link");
+    const blockId = `blockContent_${index + 1}`;
 
     // Якщо у localStorage вже є збережений текст — показуємо його
     const savedHTML = localStorage.getItem(blockId);
     if (savedHTML) {
-        block.innerHTML = savedHTML + `<button class="restore-btn">Відновити початковий текст</button>`;
-        addRestoreHandler(block, blockId);
+      block.innerHTML = savedHTML + `<button class="restore-btn">Відновити початковий текст</button>`;
+      addRestoreHandler(block, blockId);
     }
 
     // Якщо є посилання "Редагувати"
     if (editLink) {
-        editLink.addEventListener("dblclick", (e) => {
-            e.preventDefault();
+      editLink.addEventListener("dblclick", (e) => {
+        e.preventDefault();
 
         // Отримуємо поточний HTML
         const currentHTML = block.innerHTML;
@@ -200,3 +187,18 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 });
+
+
+// --- Завдання 1: обмін верхнього і нижнього блоків ---
+// Виконуємо в кінці, після рендеру всіх блоків (щоб не ламало "Редагувати")
+setTimeout(() => {
+  const x = document.querySelector(".logo-box");
+  const y = document.querySelector(".y-box");
+  if (x && y) {
+    const temp = x.innerHTML;
+    x.innerHTML = y.innerHTML;
+    y.innerHTML = temp;
+    x.style.backgroundColor = "#f3e1fc";
+    y.style.backgroundColor = "#f3e1fc";
+  }
+}, 1000);
